@@ -7,9 +7,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _speed = 4.0f;
     [SerializeField] private float _jumpForce = 350;
     [SerializeField] private Vector2 _jumpWallForce = new Vector2(250,250);
+    [SerializeField] private float floorDistance = 0.6f;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _mainSprite;
     [SerializeField] private Projectile _projectile;
+    [SerializeField] private Transform _projectileTransform;
+    [SerializeField] private float _startLife;
+    [SerializeField] private float _currentLife;
+    
 
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip jumpAudio;
@@ -22,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private bool _lastActioningJump;
     
     private Rigidbody2D _rigidbody2D;
+    private Vector2 _lastDirection;
 
     private bool _moving;
     private bool _onFloor;
@@ -65,16 +71,22 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isJumping",false);
         }
-        if (!_isJumping && _onFloor)
+        if (_isJumping)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x , 0.001f);
+            _rigidbody2D.excludeLayers = LayerMask.GetMask("Floor");
+            
+        }
+        else
+        {
+            _rigidbody2D.excludeLayers = 0;
+
         }
     }
 
     private bool IsRaycastWith(Vector2 origin, Vector2 direction, string tag)
     {
         bool isRaycast = false;
-        var casts = Physics2D.RaycastAll(origin,  direction, 0.6f);
+        var casts = Physics2D.RaycastAll(origin,  direction, floorDistance);
         foreach (var hit2D in casts)
         {
             isRaycast |= hit2D.collider.tag == tag;
@@ -119,6 +131,8 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D.velocity = velocity;
 
         _mainSprite.gameObject.transform.localScale = velocity.x > 0? Vector3.one: new Vector3(-1,1,1);
+
+        _lastDirection = direction;
     }
 
     public void Action() {
@@ -134,13 +148,19 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
+        
         // foreach (PlayerController player in _targets)
         // {
         //     _gameManager.Attack(this, player);
         // }
 
-        var projectile = Instantiate(_projectile, transform.position, new Quaternion());
-        projectile.Direction = Vector3.right * _mainSprite.gameObject.transform.localScale.x;
+        var projectilePostion =  Vector3.zero + (_projectileTransform.position);
+        projectilePostion.x = _mainSprite.gameObject.transform.localScale.x < 0 ?
+            2*transform.position.x-projectilePostion.x: 
+            projectilePostion.x; 
+
+        var projectile = Instantiate(_projectile, projectilePostion, new Quaternion());
+        projectile.Direction = _lastDirection != Vector2.zero ? _lastDirection.normalized : Vector3.right * _mainSprite.gameObject.transform.localScale.x;
         _animator.SetBool("isAttaking",true);
         PlayHitAudio();
     }
@@ -213,14 +233,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (_isFalling && other.tag.Equals("Floor"))
-                    {
-                        
-        }
-    }
-
     public void Push(Vector3 origin, float pushForce)
     {
         Vector3 normalizedDirection = (transform.position-origin).normalized;
@@ -229,5 +241,10 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D.AddForce(normalizedDirection * pushForce);
 
         DisableInputs();
+    }
+    
+    public void ReceiveDamage(PlayerController player)
+    {
+        _currentLife -= player._projectile.Damage;
     }
 }

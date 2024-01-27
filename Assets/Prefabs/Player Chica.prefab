@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &628001827669182835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2587316268528051838}
+  m_Layer: 0
+  m_Name: projectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2587316268528051838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628001827669182835}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.12, y: 0.17, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3640875335707396852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2664741215943489894
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +43,7 @@ GameObject:
   - component: {fileID: 3801660385290819149}
   - component: {fileID: 5914034005012875743}
   m_Layer: 0
-  m_Name: Golem
+  m_Name: girl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,9 +104,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: e83a0dcd1918a4f43920b2d9f5417099, type: 3}
-  m_Color: {r: 0.9716981, g: 0.36362278, b: 0.36362278, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: eae41dcf371534908abaa89e31b34fb4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,7 +126,7 @@ Animator:
   m_GameObject: {fileID: 2664741215943489894}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 37d987d464c195847b2cc696bf26f487, type: 2}
+  m_Controller: {fileID: 9100000, guid: cab5b2bde627d42df9215fccf148bee1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -120,9 +151,9 @@ GameObject:
   - component: {fileID: 3640875335707396855}
   - component: {fileID: 3640875335707396848}
   - component: {fileID: 6009245985979438630}
-  - component: {fileID: 3737340512795818308}
+  - component: {fileID: 7676826564182469442}
   m_Layer: 0
-  m_Name: Player 4
+  m_Name: Player Chica
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,6 +173,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 629573244663719878}
+  - {fileID: 2587316268528051838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3640875335707396853
@@ -184,7 +216,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.8773585, g: 0.48661554, b: 0.113118485, a: 1}
   m_FlipX: 0
@@ -208,14 +240,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f33b861708f41d4cbdd5b79581b8788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 7
-  _jumpForce: 450
-  _jumpWallForce: {x: 250, y: 350}
-  floorDistance: 0.6
+  _speed: 12
+  _jumpForce: 1200
+  _jumpWallForce: {x: 250, y: 500}
+  floorDistance: 1.1
   _animator: {fileID: 5914034005012875743}
   _mainSprite: {fileID: 3801660385290819149}
-  _projectile: {fileID: 0}
-  audioSource: {fileID: 5183233958073400612, guid: bc34a0adb2500134888ea8759b73a132, type: 3}
+  _projectile: {fileID: 5097628341719356176, guid: 01c02272cde6f4aebb6132e4ead8439d, type: 3}
+  _projectileTransform: {fileID: 2587316268528051838}
+  _startLife: 0
+  _currentLife: 0
+  audioSource: {fileID: 7676826564182469442}
   jumpAudio: {fileID: 8300000, guid: dcbcefeb717749b44bc2b1463a815601, type: 3}
   hitAudio: {fileID: 8300000, guid: 09112619d1fce924ab64e9d4ecf94ebd, type: 3}
 --- !u!50 &3640875335707396855
@@ -233,7 +268,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -277,7 +312,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.23}
+  m_Offset: {x: 0, y: -0.82}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -288,7 +323,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.6}
+  m_Size: {x: 1.59, y: 0.43}
   m_EdgeRadius: 0
 --- !u!61 &6009245985979438630
 BoxCollider2D:
@@ -322,7 +357,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -333,9 +368,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.16, y: 1.06}
+  m_Size: {x: 1.16, y: 1.83}
   m_EdgeRadius: 0
---- !u!82 &3737340512795818308
+--- !u!82 &7676826564182469442
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

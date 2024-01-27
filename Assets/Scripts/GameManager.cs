@@ -12,9 +12,6 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private List<PlayerController> playerPrefabs;
     private List<PlayerController> _playerControllers;
 
-    [SerializeField] private TreasureController _treasureControllerPrefab;
-    private TreasureController _treasureController;
-
     [SerializeField] private List<Transform> playerSpawnPositions;
     [SerializeField] private int _playerCount = 4;
 
@@ -62,9 +59,6 @@ public class GameManager : MonoBehaviour {
         _inputController = Instantiate(_inputControllerPrefab);
         _inputController.Initialize(this);
 
-        _treasureController = Instantiate(_treasureControllerPrefab);
-        _treasureController.Initialize(this);
-
         _currentMatchTime = _matchDuration;
 
         musicSource.clip = gameMusic;
@@ -73,7 +67,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
-        _uiController.Refresh(_playerControllers, _treasureController, _currentMatchTime);
+        _uiController.Refresh(_playerControllers, _currentMatchTime);
         _currentMatchTime -= Time.deltaTime;
         if (!gameFinished && _currentMatchTime <= 0)
         {
@@ -130,13 +124,7 @@ public class GameManager : MonoBehaviour {
 
     public void Attack(PlayerController player, PlayerController target)
     {
-        if (_treasureController.IsTreasure && _treasureController.AttachedPlayer == target)
-        {
-            _treasureController.AttachPlayer(player);
-        }else if (_treasureController.IsCurse && _treasureController.AttachedPlayer == player)
-        {
-            _treasureController.AttachPlayer(target);
-        }
+        target.ReceiveDamage(player);
     }
 
     public IEnumerator ReturnMenu(float delay) {

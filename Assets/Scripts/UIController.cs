@@ -11,12 +11,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private TMP_Text _winerText;
     [SerializeField] private TMP_Text _timerText;
     
-    public void Refresh(List<PlayerController> players, TreasureController treasure, float time)
+    public void Refresh(List<PlayerController> players, float time)
     {
         for (int i = 0; i<players.Count;i++)
         {
-            float size = treasure.AttachedPlayer == players[i] ? 64 : 48;
-            playerScoreTexts[i].text = $"<size={size:0}>P{players[i].PlayerNumber+1}: {players[i].Score:0.0}";
+            playerScoreTexts[i].text = $"<size={48}>P{players[i].PlayerNumber+1}: {players[i].Score:0.0}";
         }
         for (int i = players.Count; i<playerScoreTexts.Count;i++)
         {
