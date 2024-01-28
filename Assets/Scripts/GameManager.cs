@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
     {
         _uiController.Refresh(_playerControllers, _currentMatchTime);
         _currentMatchTime -= Time.deltaTime;
-        bool winCondition = !enemyPlayer.IsAlive;
+        bool winCondition = enemyPlayer.IsDead;
         bool loseCondition = !_playerControllers[0].IsAlive || _currentMatchTime <= 0;
         if (!gameFinished && winCondition)
         {
@@ -89,6 +89,11 @@ public class GameManager : MonoBehaviour {
         if (dogMusicTriggeredTime > 0 && _currentMatchTime < dogMusicTriggeredTime - dogMusic.length)
         {
             ResumeMusic();
+        }
+        
+        if(enemyPlayer.IsDying && IsPlaying)
+        {
+            _winPlayer = _playerControllers[0];
         }
         
         
@@ -156,15 +161,17 @@ public class GameManager : MonoBehaviour {
     
     public void Damage(int player, float value)
     {
-        //Debug.Log(player);
-        if (player < 0)
+        if (enemyPlayer.IsAlive)
         {
-            enemyPlayer.ReceiveDamage(value);
-            _playerControllers[0].Score++;
-        }
-        else
-        {
-            _playerControllers[player].ReceiveDamage(value);
+            if (player < 0)
+            {
+                enemyPlayer.ReceiveDamage(value);
+                _playerControllers[0].Score++;
+            }
+            else
+            {
+                _playerControllers[player].ReceiveDamage(value);
+            }
         }
     }
 

@@ -36,6 +36,19 @@ public class EnemyPlayer : MonoBehaviour
         get => _currentLife > 0;
     }
     
+    public bool IsDying
+    {
+        get => isDying;
+    }
+    
+    public bool IsDead
+    {
+        get => isDead;
+    }
+
+    private bool isDying;
+    private bool isDead;
+    
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -45,6 +58,7 @@ public class EnemyPlayer : MonoBehaviour
     private void Start()
     {
         _startPosition = transform.position;
+        _currentLife = _startLife;
         StartCoroutine(MoveToPosition(_endPosition.position, _introTime));
     }
 
@@ -60,10 +74,22 @@ public class EnemyPlayer : MonoBehaviour
 
             spriteRenderer.color = Color.white;
         }
+
+        if (!IsAlive)
+        {
+            isDying = true;
+            _animator.SetBool("isDead",true);
+        }
+    }
+
+    public void Dead()
+    {
+        isDead = true;
     }
 
     private void FixedUpdate()
     {
+        if(isDying) return;
         _elapsedTime += Time.fixedDeltaTime;
         if (_lastAttack1 + _attack1EachTime < _elapsedTime)
         {
