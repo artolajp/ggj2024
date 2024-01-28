@@ -248,8 +248,8 @@ MonoBehaviour:
   _mainSprite: {fileID: 3801660385290819149}
   _projectile: {fileID: 5097628341719356176, guid: 01c02272cde6f4aebb6132e4ead8439d, type: 3}
   _projectileTransform: {fileID: 2587316268528051838}
-  _startLife: 0
-  _currentLife: 0
+  _startLife: 100
+  _currentLife: 100
   audioSource: {fileID: 7676826564182469442}
   jumpAudio: {fileID: 8300000, guid: dcbcefeb717749b44bc2b1463a815601, type: 3}
   hitAudio: {fileID: 8300000, guid: 09112619d1fce924ab64e9d4ecf94ebd, type: 3}
@@ -382,7 +382,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.232
   m_Pitch: 1
   Loop: 0
   Mute: 0

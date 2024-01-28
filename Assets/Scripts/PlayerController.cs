@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour
     private bool _isJumping;
     public float Score { get; set; }
     public int PlayerNumber { get; protected set; }
+    public bool IsAlive
+    {
+        get => _currentLife > 0;
+    }
+    public float CurrentLife => _currentLife;
 
     private List<PlayerController> _targets;
 
@@ -46,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _currentLife = _startLife;
     }
 
     public void Initialize(int playerNumber, GameManager gameManager)
@@ -163,6 +169,10 @@ public class PlayerController : MonoBehaviour
         projectile.Direction = _lastDirection != Vector2.zero ? _lastDirection.normalized : Vector3.right * _mainSprite.gameObject.transform.localScale.x;
         _animator.SetBool("isAttaking",true);
         PlayHitAudio();
+
+        projectile.owner = PlayerNumber;
+        projectile.GameManager = _gameManager;
+
     }
 
     public void Jump() {
@@ -246,5 +256,10 @@ public class PlayerController : MonoBehaviour
     public void ReceiveDamage(PlayerController player)
     {
         _currentLife -= player._projectile.Damage;
+    }
+    
+    public void ReceiveDamage(float value)
+    {
+        _currentLife -= value;
     }
 }

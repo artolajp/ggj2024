@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     private float _currentMatchTime;
 
     [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject losePanel;
     [SerializeField] private Animator maskAnimator;
     public Animator MaskAnimator => maskAnimator;
 
@@ -30,6 +31,11 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private AudioClip gameMusic;
 
     [SerializeField] private AudioClip endMusic;
+    [SerializeField] private AudioClip dogMusic;
+
+    [SerializeField] private EnemyPlayer enemyPlayer;
+
+    private float dogMusicTriggeredTime;
 
     public int PlayerCount => _playerCount;
 
@@ -69,15 +75,26 @@ public class GameManager : MonoBehaviour {
     {
         _uiController.Refresh(_playerControllers, _currentMatchTime);
         _currentMatchTime -= Time.deltaTime;
-        if (!gameFinished && _currentMatchTime <= 0)
+        bool winCondition = !enemyPlayer.IsAlive;
+        bool loseCondition = !_playerControllers[0].IsAlive || _currentMatchTime <= 0;
+        if (!gameFinished && winCondition)
         {
-            EndGame();
-        } else if(gameFinished && Input.anyKeyDown) {
-            StartCoroutine(ReturnMenu(0));
+            EndGame(true);
+        }else if (!gameFinished && loseCondition ) {
+            EndGame(false);
+        }  else if(gameFinished && Input.anyKeyDown) {
+            //StartCoroutine(ReturnMenu(0));
         }
+
+        if (dogMusicTriggeredTime > 0 && _currentMatchTime < dogMusicTriggeredTime - dogMusic.length)
+        {
+            ResumeMusic();
+        }
+        
+        
     }
 
-    private void EndGame()
+    private void EndGame(bool win)
     {
         PlayerController winner = _playerControllers[0];
         for (int i = 1; i < _playerControllers.Count; i++)
@@ -90,11 +107,21 @@ public class GameManager : MonoBehaviour {
 
         _winPlayer = winner;
 
-        winPanel.SetActive(true);
-        _uiController.ShowWinner(_winPlayer); 
+        if (win)
+        {
+            winPanel.SetActive(true);
+            _uiController.ShowWinner(_winPlayer); 
+            
         
-        musicSource.clip = endMusic;
-        musicSource.Play();
+            musicSource.clip = endMusic;
+            musicSource.Play();
+        }
+        else
+        {
+            losePanel.SetActive(true);
+            musicSource.clip = dogMusic;
+            musicSource.Play();
+        }
 
         gameFinished = true;
 
@@ -126,10 +153,37 @@ public class GameManager : MonoBehaviour {
     {
         target.ReceiveDamage(player);
     }
+    
+    public void Damage(int player, float value)
+    {
+        //Debug.Log(player);
+        if (player < 0)
+        {
+            enemyPlayer.ReceiveDamage(value);
+            _playerControllers[0].Score++;
+        }
+        else
+        {
+            _playerControllers[player].ReceiveDamage(value);
+        }
+    }
 
     public IEnumerator ReturnMenu(float delay) {
         yield return new WaitForSecondsRealtime(delay);
         Time.timeScale = 1;
         SceneManager.LoadScene("Home");
+    }
+    public void PlayDogMusic()
+    {
+        musicSource.clip = dogMusic;
+        musicSource.Play();
+        dogMusicTriggeredTime = _currentMatchTime;
+    }
+
+    public void ResumeMusic()
+    {
+        musicSource.clip = gameMusic;
+        musicSource.Play();
+        dogMusicTriggeredTime = 0;
     }
 }

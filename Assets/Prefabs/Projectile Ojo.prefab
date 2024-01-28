@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7696529137816645947}
   - component: {fileID: 3091599864506687990}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 5097628341719356176}
   - component: {fileID: 6189955199299473229}
   - component: {fileID: 6132649483613454777}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Projectile Ojo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,10 +185,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectileSpeed: 10
-  _lifeTime: 10
-  _damage: 5
+  _lifeTime: 5
+  _damage: 10
   _direction: {x: 0, y: 0}
   isBound: 1
+  isDestroyedByContact: 0
+  _timeToStart: 0
+  owner: -1
 --- !u!50 &6189955199299473229
 Rigidbody2D:
   serializedVersion: 4
@@ -211,7 +214,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1

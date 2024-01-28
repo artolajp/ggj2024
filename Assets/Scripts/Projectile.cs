@@ -11,6 +11,14 @@ public class Projectile : MonoBehaviour
     [SerializeField] private Vector2 _direction;
 
     [SerializeField] private bool isBound;
+    [SerializeField] private bool isDestroyedByContact;
+    [SerializeField] private float _timeToStart = 0;
+    
+    
+
+    private GameManager _gameManager;
+
+    public int owner = -1;
 
     private Rigidbody2D _rigidbody;
 
@@ -27,11 +35,18 @@ public class Projectile : MonoBehaviour
     {
         get => _damage;
     }
+    
+    public GameManager GameManager { set => _gameManager = value; }
 
     private void FixedUpdate()
     {
-        _rigidbody.velocity = Direction.normalized * _projectileSpeed;
         _elapsedTime += Time.fixedDeltaTime;
+        if (_elapsedTime < _timeToStart)
+        {
+            _rigidbody.velocity = Vector2.zero;
+            return;
+        }
+        _rigidbody.velocity = Direction.normalized * _projectileSpeed;
         if(_elapsedTime>_lifeTime) GameObject.Destroy(gameObject);
     }
 
@@ -55,6 +70,23 @@ public class Projectile : MonoBehaviour
             }
             
             _direction = new Vector2(x  ,y);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var playerController = other.gameObject.GetComponent<PlayerController>();
+        if (owner<0 && playerController)
+        {
+            _gameManager.Damage(playerController.PlayerNumber, _damage);
+            if(isDestroyedByContact)Destroy(gameObject);
+        }
+        
+        var enemy = other.gameObject.GetComponent<EnemyPlayer>();
+        if (owner >= 0 && enemy)
+        {
+            _gameManager.Damage(-1, _damage);
+            if(isDestroyedByContact)Destroy(gameObject);
         }
     }
 }

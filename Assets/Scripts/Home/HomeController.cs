@@ -50,8 +50,9 @@ public class HomeController : Singleton<HomeController> {
         credits.SetActive(true);
     }
 
-    public void StartGame() {
-        GameManager.PlayersSelected = ChairCount;
+    public void StartGame()
+    {
+        GameManager.PlayersSelected = 1;// ChairCount;
         SceneManager.LoadScene("Game");
     }
 
