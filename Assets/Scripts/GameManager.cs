@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
 
         musicSource.clip = gameMusic;
         musicSource.Play();
+        _winPlayer = null;
     }
 
     private void Update()

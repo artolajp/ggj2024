@@ -53,7 +53,7 @@ public class HomeController : Singleton<HomeController> {
     public void StartGame()
     {
         GameManager.PlayersSelected = 1;// ChairCount;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Intro");
     }
 
     public void OnChairChanged() {

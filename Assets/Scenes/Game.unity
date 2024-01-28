@@ -1406,7 +1406,7 @@ Transform:
   m_GameObject: {fileID: 738563315}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1132, y: 8, z: 0}
+  m_LocalPosition: {x: 0.1132, y: 7.65, z: 0}
   m_LocalScale: {x: 27.299398, y: 1.7134154, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2639,8 +2639,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ad772a9612c47b78be07c0351cd246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startLife: 25
-  _currentLife: 600
+  _startLife: 500
+  _currentLife: 500
   _introTime: 4
   _endPosition: {fileID: 1901415337}
   _eyePosition: {fileID: 507961675}
@@ -2652,7 +2652,7 @@ MonoBehaviour:
   _lastAttack1: 6
   _lastAttack2: 6
   _gameManager: {fileID: 1877726187}
-  _targetDeadColor: {r: 1, g: 0, b: 0, a: 1}
+  _targetDeadColor: {r: 0.82745105, g: 0.37647063, b: 0.82745105, a: 1}
 --- !u!95 &1312991646
 Animator:
   serializedVersion: 5
@@ -4192,7 +4192,7 @@ Transform:
   m_GameObject: {fileID: 2095584193}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.7937, y: 0.7174, z: 0}
+  m_LocalPosition: {x: -12.99, y: 0.7174, z: 0}
   m_LocalScale: {x: 1.5166332, y: 15.420737, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
